@@ -1,5 +1,6 @@
 #include "gameframe.h"
 #include "svgrgb565.h"
+#include "os.h"
 
 void main(void);
 colour square_pixel_colour(int,int);
@@ -11,13 +12,15 @@ game_scene scene;
 
 
 void main(void) {
-  for(;;) {
-    init();
-  }
+  os_init();
+  init();
+
+  os_add_task(run_frame, 100, 1);
+  
+  for(;;) {}
 }
 
 void init(void) {
-  scene.target_frame_time = 100;
   scene.num_entities = 1;
 
   scene.entities = entities;
@@ -26,9 +29,11 @@ void init(void) {
   entities[0].y = 100;
   entities[0].width = 10;
   entities[0].height = 10;
+  entities[0].transparency_code = 0;
   entities[0].pixel_colour = square_pixel_colour;
+  entities[0].update = square_update;
 
-  start(scene);
+  set_scene(scene);
 }
 
 colour square_pixel_colour(int x, int y) {
@@ -36,23 +41,23 @@ colour square_pixel_colour(int x, int y) {
 }
 
 void square_update(void) {
-  if(up_pressed) {
+  if(get_switch_state(_BV(SWN))) {
     entities[0].y -= 2;
   }
 
-  if(down_pressed) {
+  if(get_switch_state(_BV(SWS))) {
     entities[0].y += 2;
   }
 
-  if(left_pressed) {
+  if(get_switch_state(_BV(SWW))) {
     entities[0].x -= 2;
   }
 
-  if(right_pressed) {
+  if(get_switch_state(_BV(SWE))) {
     entities[0].x += 2;
   }
 
-  if(middle_pressed) {
-    stop();
+  if(get_switch_press(_BV(SWC))) {
+    init();
   }
 }
