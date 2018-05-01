@@ -9,12 +9,13 @@ typedef uint_16 colour;
 
 // structs
 typedef struct game_scene {
-  int target_frame_time, num_entities;
+  int num_entities;
   game_entity *entities;
 }
 
 typedef struct game_entity {
   int x, y, width, height;
+  colour transparency_code;
 
   /* returns the pixel colour of the sprite of this entity at coords given, 
      origin being top left corner of the sprite */
@@ -25,8 +26,8 @@ typedef struct game_entity {
 } game_entity;
 
 // functions
-void start(game_scene);
-void stop(void);
+void set_scene(game_scene*);
+int run_frame(int);
 
 
 #endif
