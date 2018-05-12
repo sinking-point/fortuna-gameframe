@@ -14,7 +14,7 @@ typedef struct game_scene {
 }
 
 typedef struct game_entity {
-  int x, y, width, height;
+  int x, y, width, height, changed;
   colour transparency_code;
 
   /* returns the pixel colour of the sprite of this entity at coords given, 
