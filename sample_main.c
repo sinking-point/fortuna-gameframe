@@ -6,8 +6,9 @@ void main(void);
 colour square_pixel_colour(int,int);
 void square_update(void);
 void init(void);
+int test_scheduler(int);
 
-game_entity[1] entities;
+game_entity entities[1];
 game_scene scene;
 
 
@@ -15,9 +16,15 @@ void main(void) {
   os_init();
   init();
 
-  os_add_task(run_frame, 100, 1);
+  os_add_task(run_frame, 1000, 1);
+
+  sei();
   
   for(;;) {}
+}
+
+int test_scheduler(int state) {
+  return state;
 }
 
 void init(void) {
@@ -33,11 +40,11 @@ void init(void) {
   entities[0].pixel_colour = square_pixel_colour;
   entities[0].update = square_update;
 
-  set_scene(scene);
+  set_scene(&scene);
 }
 
 colour square_pixel_colour(int x, int y) {
-  return CORNFLOWER_BLUE;
+  return 0;
 }
 
 void square_update(void) {
